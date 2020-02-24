@@ -7,16 +7,14 @@ import java.util.*;
 import com.capg.sprint1.fms.exception.BookingIdException;
 import com.capg.sprint1.fms.exception.InvalidNameException;
 import com.capg.sprint1.fms.model.*;
-import com.capg.sprint1.fms.service.*;
 
 
 public class BookingDaoImpl implements BookingDao {
 
-	public static Map<Long,Booking> bookingNo=new HashMap<Long,Booking>();
+	public static Map<Long,Booking> bookingMap=new HashMap<Long,Booking>();
 	public BookingDaoImpl() {
 		
-//User ::String userType, long userId, String userName, String userPassword, long userPhone,
-	//		String userEmail	     
+//User ::String userType, long userId, String userName, String userPassword, long userPhone,String userEmail	     
 	     User u1=new User("Type1",1239,"Sak","passwrd",964090742,"sakshikapurkar@gmail.com");
 	     User u2=new User("Type1",1238,"Sak","passwrd",964090742,"sakshikapurkar@gmail.com");
 	     User u3=new User("Type1",1237,"Sak","passwrd",964090742,"sakshikapurkar@gmail.com");
@@ -53,40 +51,36 @@ public class BookingDaoImpl implements BookingDao {
 		LocalDate dt1= LocalDate.of(2001,1,1);
 		LocalDate dt2= LocalDate.of(2002,2,2);
 		LocalDate dt3= LocalDate.of(2003,3,3);
-////Booking ::long bookingId, User userId,LocalDate bookingDate, List<Passenger> passengerList,
-//	double ticketCost, Flight flight, Integer noOfPassengers
+//Booking ::long bookingId, User userId,LocalDate bookingDate, List<Passenger> passengerList,double ticketCost, Flight flight, Integer noOfPassengers
 		
 		Booking b1= new Booking(1234,u1,dt1,l1,2000,f1,20);
 		Booking b2= new Booking(1235,u2,dt2,l2,4000,f2,40);
 		Booking b3= new Booking(1236,u3,dt3,l3,5000,f3,80);
 		
 	
-		bookingNo.put(b1.getBookingId(),b1);
-		bookingNo.put(b2.getBookingId(),b2);
-		bookingNo.put(b3.getBookingId(),b3);
+		bookingMap.put(b1.getBookingId(),b1);
+		bookingMap.put(b2.getBookingId(),b2);
+		bookingMap.put(b3.getBookingId(),b3);
 		}
    
-	public Booking modifyBooking(Booking booking) {
-			return null;
-	}
 
-	public boolean deleteBooking(long bookingId) throws BookingIdException{
-		if(true) {bookingNo.remove(bookingId);}
+	public boolean deleteBookingByBookingId(long bookingId) throws BookingIdException{
+		if(true) {bookingMap.remove(bookingId);}
 		return false;
 		}
   
-	public  LocalDate modifyByDate(long bookingId,LocalDate date) throws BookingIdException{
-		bookingNo.get(bookingId).setBookingDate(date); 
+	public  LocalDate modifyBookingByDate(long bookingId,LocalDate date) throws BookingIdException{
+		bookingMap.get(bookingId).setBookingDate(date); 
 		return date;
 	}
 	Passenger passenger=new Passenger();
 	
-	public  Passenger addByPassenger(long bookingId,Passenger p) throws BookingIdException{
-		   bookingNo.get(bookingId).getPassengerList().add(p);
+	public  Passenger addPassenger(long bookingId,Passenger p) throws BookingIdException{
+		   bookingMap.get(bookingId).getPassengerList().add(p);
 		  return p;
 	}
-	public  Passenger deleteByPassenger(long bookingId,String passengerName) throws BookingIdException,InvalidNameException{
-		   bookingNo.get(bookingId).getPassengerList().remove(passenger);
+	public  Passenger deletePassenger(long bookingId,String passengerName) throws BookingIdException,InvalidNameException{
+		   bookingMap.get(bookingId).getPassengerList().remove(passenger);
 		return passenger;
 		}
 	

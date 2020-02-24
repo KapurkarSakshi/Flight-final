@@ -14,13 +14,13 @@ public class AppTest
   static BookingDaoImpl dao=new BookingDaoImpl();
   
    
-    Map<Long,Booking> bookingNo= BookingDaoImpl.bookingNo;
+    Map<Long,Booking> bookingMap= BookingDaoImpl.bookingMap;
 	
    @BeforeEach
        public void setup() {
 	 dao=new BookingDaoImpl();
 	 	}
-    
+ 
     @Test
     public void test() throws BookingIdException  {
     	Flight f1=new Flight(880,"Model1","Carrier1",100);
@@ -30,13 +30,11 @@ public class AppTest
  	 	Passenger p1=new Passenger(1,"chinnu",20,20201205,10.55);
   	         l1.add(p1);
     	Booking b1= new Booking(1234,u1,dt1,l1,2000,f1,20);
-    	bookingNo.put(b1.getBookingId(),b1);
+    	bookingMap.put(b1.getBookingId(),b1);
     	long BookingId=b1.getBookingId();
-    	dao.addByPassenger(BookingId, p1);
-      assertEquals(1234,dao.addByPassenger(BookingId, p1));
-    	
+    	dao.addPassenger(BookingId, p1);
+      assertEquals(p1,dao.addPassenger(BookingId, p1));
     }
-    
     
     
    

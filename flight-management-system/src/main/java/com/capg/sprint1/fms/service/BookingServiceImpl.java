@@ -13,50 +13,45 @@ import com.capg.sprint1.fms.model.Passenger;
 public class BookingServiceImpl implements BookingService {
 	BookingDaoImpl bookingDao=new BookingDaoImpl();
 	Booking booking=new Booking();
-
-	public Booking modifyBooking(Booking booking) {
-		return bookingDao.modifyBooking(booking);
-	}
-
 	
-	public boolean deleteBooking(long bookingId) throws BookingIdException {
+	public boolean deleteBookingByBookingId(long bookingId) throws BookingIdException {
 		long bkngId=booking.getBookingId();
 		boolean flag=validateBookingId(bkngId);
-		if(!flag) {
+		if(flag) {
 			throw new BookingIdException("Booking id should contains only four digits");
 			}
-		if(!BookingDaoImpl.bookingNo.containsKey(bookingId)) {
+		if(!BookingDaoImpl.bookingMap.containsKey(bookingId)) {
 			throw new BookingIdException("Error :BookingId not found");
 		}
 		
-		return bookingDao.deleteBooking(bookingId);
+		return bookingDao.deleteBookingByBookingId(bookingId);
 	}
 
-	public LocalDate modifyByDate(long bookingId, LocalDate date) throws BookingIdException {
-		if(!BookingDaoImpl.bookingNo.containsKey(bookingId)) {
+	public LocalDate modifyBookingByDate(long bookingId, LocalDate date) throws BookingIdException {
+		if(!BookingDaoImpl.bookingMap.containsKey(bookingId)) {
 			throw new BookingIdException("Error : Booking Id not found, Please enter a valid booking Id");
 		}
-		return bookingDao.modifyByDate(bookingId, date);
+		return bookingDao.modifyBookingByDate(bookingId, date);
 	}
 
-	public Passenger deleteByPassenger(long bookingId, String passengerName) throws BookingIdException,InvalidNameException{
-		if(!BookingDaoImpl.bookingNo.containsKey(bookingId)) {
+	public Passenger deletePassenger(long bookingId, String passengerName) throws BookingIdException,InvalidNameException{
+		if(!BookingDaoImpl.bookingMap.containsKey(bookingId)) {
 			throw new BookingIdException("Error : Booking Id not found, Please enter a valid booking Id");
 		}
 		else {
-			if(BookingDaoImpl.bookingNo.get(bookingId).getPassengerList().stream().filter(p->p.getPassengerName().equalsIgnoreCase(passengerName)).count()==0) {
+			if(BookingDaoImpl.bookingMap.get(bookingId).getPassengerList().stream().filter(p->p.getPassengerName().equalsIgnoreCase(passengerName)).count()==0) {
 				throw new InvalidNameException("Error: Name not found, Please enter valid name");
 			}
 		}
-			return   bookingDao.deleteByPassenger(bookingId,passengerName);
+			return   bookingDao.deletePassenger(bookingId,passengerName);
 		
 	}
 
-	public  Passenger addByPassenger(long bookingId, Passenger p) throws BookingIdException {
-		if(!BookingDaoImpl.bookingNo.containsKey(bookingId)) {
+	public  Passenger addPassenger(long bookingId, Passenger p) throws BookingIdException {
+		if(!BookingDaoImpl.bookingMap.containsKey(bookingId)) {
 			throw new BookingIdException("Error : Booking Id not found, Please enter a valid booking Id");
 		}
-		return bookingDao.addByPassenger(bookingId, p);
+		return bookingDao.addPassenger(bookingId, p);
 	}
 
 	public static boolean checkMatches(String regex, CharSequence input) {
